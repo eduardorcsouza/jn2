@@ -1,0 +1,29 @@
+version: '2.10'
+
+services:
+  php-composer:
+    image: composer:latest
+    container_name: eduardo-jn2-composer
+    command: sh -c "./sh/composer.sh"
+    volumes:
+      - ./:/app
+  mariadb:
+    image: mariadb:10.7
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_PASSWORD=123
+      - MYSQL_USER=admin
+      - MYSQL_DATABASE=jn
+  php-sys:
+    image: php:8.1.0alpha3-apache
+    build: .
+    container_name: eduardo-jn2-php
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www/html
+
